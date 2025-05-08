@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 
-class AuthManager extends Controller
+class AuthController extends Controller
 {
     function login()
     {
@@ -19,7 +19,7 @@ class AuthManager extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'remember' => 'nullable|boolean',
+            'remember' => 'nullable',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -29,7 +29,15 @@ class AuthManager extends Controller
             return redirect()->intended(route('home'))
                 ->with('success', 'Login successful');
         }
+
         return redirect()->back()->with('error', 'Invalid credentials');
+    }
+
+    function logout()
+    {
+        Auth::logout();
+        return redirect()->to(route('home'))
+            ->with('success', 'Logout successful');
     }
 
     function register()

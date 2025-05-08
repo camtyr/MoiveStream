@@ -14,7 +14,6 @@
             <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
-        
         @endif
 
         <form method="POST" action="{{ route('login.post') }}">
@@ -26,11 +25,17 @@
             <div class="form-floating">
                 <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
                 <label for="floatingInput">Email address</label>
+                @error('email')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-floating">
                 <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
                 <label for="floatingPassword">Password</label>
+                @error('password')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-check text-start my-3">
