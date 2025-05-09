@@ -18,7 +18,7 @@
                         style="background-image: linear-gradient(to bottom, rgb(0 0 0 /10%), rgb(0,0,0)); display: flex; align-items: flex-end;">
                         <div class="w-100 text-center pb-3 ps-1 pe-1">
                             <h2 class="text-white">{{ $movie->title }}</h2>
-                            <a href="{{ $movie->slug }}" class="btn btn-success rounded-pill mb-1 ps-3 pe-3">
+                            <a href="{{ route("movie.detail", $movie->slug)}}" class="btn btn-success rounded-pill mb-1 ps-3 pe-3">
                                 Watch now
                             </a>
                         </div>
@@ -33,7 +33,7 @@
 </section>
 @endsection
 
-@push('styles')
+@section('styles')
 <style>
     .pagination .page-link {
         color: white;
@@ -59,4 +59,4 @@
         border-color: #6c757d;
     }
 </style>
-@endpush
+@endsection

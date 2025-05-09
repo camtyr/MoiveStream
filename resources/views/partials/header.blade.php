@@ -7,23 +7,24 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="{{ route("movie.list") }}">List</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#">Features</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
-        </li>
+        </li> -->
       </ul>
+
       <div class="ms-auto">
         @auth
-        <a href="{{ route("logout") }}" class="text-white">Logout</a>
+        <a href="{{ route("logout") }}" class="auth-link">Logout</a>
         @else
-        <a href="{{ route("login") }}" class="text-white">login</a>
-        <a href="{{ route("register") }}" class="text-white">register</a>
+        <a href="{{ route("login") }}" class="auth-link">login</a>
+        <a href="{{ route("register") }}" class="auth-link">register</a>
         @endauth
-      </div>
+      </div>  
     </div>
   </div>
 </nav>
