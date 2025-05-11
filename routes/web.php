@@ -17,3 +17,9 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get("list", [MovieController::class, 'listMovies'])->name('movie.list');
 Route::get("{slug}", [MovieController::class, 'detailMovie'])->name('movie.detail');
+
+Route::prefix("uploads")->group(function () {
+    Route::get("playlist/{folder}/{playlist}", [MovieController::class, 'getMovie'])->name('movie.playlist');
+    Route::get("media/{folder}/{media}", [MovieController::class, 'getFile'])->name('movie.media');
+    Route::get("key/{folder}/{key}", [MovieController::class, 'getKey'])->name('movie.key');
+});

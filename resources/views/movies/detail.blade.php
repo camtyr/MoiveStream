@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="col-12 col-xl-7 mt-3 text-white">
-            <media-player title="{{ $movie->title }}" src="https://files.vidstack.io/sprite-fight/hls/stream.m3u8">
+            <media-player title="{{ $movie->title }}" src="{{route("movie.playlist", [$movie->slug, "index.m3u8"]) }}">
                 <media-provider></media-provider>
                 <media-video-layout></media-video-layout>
             </media-player>
