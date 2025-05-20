@@ -10,7 +10,7 @@
             <div class="col-9 col-md-3 col-lg-3 column-gap-1 rounded mb-3">
                 <div class="text-center position-relative overflow-hidden rounded" style="height: 100%; aspect-ratio: 2/3;">
                     <img
-                        src="{{ $movie->thumbnail }}"
+                        src="{{ $movie->thumbnail ? asset('assets/images/thumbnails/'.$movie->thumbnail) : asset('assets/images/defaults/default-thumb.jpg') }}"
                         class="rounded w-100 h-100"
                         style="object-fit: cover; object-position: center;">
                     <div

@@ -17,14 +17,14 @@
         </li> -->
       </ul>
 
-      <div class="ms-auto">
+      <!-- <div class="ms-auto">
         @auth
         <a href="{{ route("logout") }}" class="auth-link">Logout</a>
         @else
         <a href="{{ route("login") }}" class="auth-link">login</a>
         <a href="{{ route("register") }}" class="auth-link">register</a>
         @endauth
-      </div>  
+      </div>   -->
     </div>
   </div>
 </nav>
