@@ -37,7 +37,7 @@
             <tr>
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $episode->title }}</td>
-                <td>{{ $episode->number }}</td>
+                <td>{{ $episode->episode_number }}</td>
                 <td>{{ $episode->movie->title }}</td>
                 <td class="text-right">
                     <form action="{{ route("episode.destroy",$episode->id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this episode?')">
@@ -53,6 +53,4 @@
     </table>
     {{ $episodes->links() }}
 </div>
-
-
 @endsection

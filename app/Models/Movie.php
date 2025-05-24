@@ -19,7 +19,8 @@ class Movie extends Model
 
     public function episodes()
     {
-        return $this->hasMany(Episode::class, 'movie_id');
+        return $this->hasMany(Episode::class, 'movie_id')->orderBy('episode_number');
+;
     }
 
     public function genres()

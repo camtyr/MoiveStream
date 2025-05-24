@@ -9,7 +9,7 @@
         <div class="col-12 col-xl-5 mt-3">
             <div class="row">
                 <div class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-5">
-                    <img src="{{$movie->thumbnail }}" style="max-width: 350px;" width="100%" height="auto">
+                    <img src="{{ asset('assets/images/thumbnails/'.$movie->thumbnail)}}" style="max-width: 350px;" width="100%" height="auto">
                 </div>
 
                 <div class="col-12 col-md-8 col-lg-9 col-xl-7">
@@ -22,26 +22,37 @@
             </div>
         </div>
         <div class="col-12 col-xl-7 mt-3 text-white">
-            <media-player title="{{ $movie->title }}" src="{{route("movie.playlist", [$movie->slug, "index.m3u8"]) }}">
+            @if($selectedEpisode)
+            <media-player
+                title="{{ $movie->title }} - Ep {{ $selectedEpisode->episode_number }}"
+                src="{{route("movie.playlist", [$movie->slug, $selectedEpisode->episode_number, "index.m3u8"]) }}">
+
                 <media-provider></media-provider>
                 <media-video-layout></media-video-layout>
             </media-player>
+            @else
+            <div class="alert alert-danger">
+                <strong>Something went wrong!</strong> No episode available for this movie.
+            </div>
+            @endif
         </div>
     </div>
 
     <div class="mt-4 text-center text-white">
         <h3 class="mb-3">Episode list</h3>
-        <ul class="list-group">
-            @forelse($movie->episodes as $episode)
-            <li class="list-group-item bg-dark text-white">
-                <a href="{{ route('movie.detail', ['slug' => $movie->slug]) }}?episode={{ $episode->id }}" class="text-info {{ $selectedEpisode && $selectedEpisode->id == $episode->id ? 'active' : '' }}">
+
+        <div class="border border-info rounded p-4 bg-dark">
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                @forelse($movie->episodes as $episode)
+                <a href="{{ route('movie.detail', ['slug' => $movie->slug]) }}?episode={{ $episode->id }}"
+                    class="btn episode-btn {{ $selectedEpisode && $selectedEpisode->id == $episode->id ? 'active' : '' }}">
                     Ep {{ $episode->episode_number }}
                 </a>
-            </li>
-            @empty
-            <li class="list-group-item bg-dark text-white">No episode yet</li>
-            @endforelse
-        </ul>
+                @empty
+                <p class="text-white">No episode yet</p>
+                @endforelse
+            </div>
+        </div>
     </div>
 </section>
 @endsection
@@ -49,6 +60,28 @@
 @section("styles")
 <link rel="stylesheet" href="https://cdn.vidstack.io/player/theme.css" />
 <link rel="stylesheet" href="https://cdn.vidstack.io/player/video.css" />
+
+<style>
+    .episode-btn {
+        background-color: #343a40;
+        color: #17a2b8;
+        border: 1px solid #17a2b8;
+        transition: all 0.3s ease;
+    }
+
+    .episode-btn:hover {
+        background-color: #17a2b8;
+        color: white;
+        text-decoration: none;
+    }
+
+    .episode-btn.active {
+        background-color: #17a2b8;
+        color: white;
+        pointer-events: none;
+        font-weight: bold;
+    }
+</style>
 @endsection
 
 @section("scripts")

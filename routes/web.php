@@ -26,9 +26,9 @@ Route::prefix("movie")->group(function () {
 });
 
 Route::prefix("uploads")->group(function () {
-    Route::get("playlist/{folder}/{playlist}", [MovieController::class, 'getMovie'])->name('movie.playlist');
-    Route::get("media/{folder}/{media}", [MovieController::class, 'getFile'])->name('movie.media');
-    Route::get("key/{folder}/{key}", [MovieController::class, 'getKey'])->name('movie.key');
+    Route::get("playlist/{slug}/{episode_number}/{playlist}", [MovieController::class, 'getMovie'])->name('movie.playlist');
+    Route::get("media/{slug}/{episode_number}/{media}", [MovieController::class, 'getMedia'])->name('movie.media');
+    Route::get("key/{slug}/{episode_number}/{key}", [MovieController::class, 'getKey'])->name('movie.key');
 });
 
 // admin routes
