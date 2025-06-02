@@ -7,6 +7,7 @@ use App\Models\Movie;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
@@ -49,9 +50,9 @@ class MovieController extends Controller
             $request->thumbnail->move(public_path("assets/images/thumbnails"), $thumb_name);
             $data['thumbnail'] = $thumb_name;
         }
-        
+
         $createdMovie = Movie::create($data);
-        if($createdMovie) {
+        if ($createdMovie) {
             $createdMovie->genres()->sync($request->input('genres', []));
             return redirect()->route('movie.index')->with('success', 'Movie created successfully');
         } else {
@@ -81,16 +82,18 @@ class MovieController extends Controller
      */
     public function update(Request $request, Movie $movie)
     {
-         $request->validate([
-            'title' => 'required|min:2|max:160|unique:movies,title,'.$movie->id,
+        $request->validate([
+            'title' => 'required|min:2|max:160|unique:movies,title,' . $movie->id,
             'release_year' => 'nullable|required|integer',
             'thumbnail' => 'nullable|file|mimes:jpeg,png,jpg,gif',
             'genres.*' => 'exists:genres,id'
         ]);
 
-        $data = $request->only("title", "description", "status", "release_year");
+        $oldSlug = $movie->slug;
+        $newSlug = Str::slug($request->title);
 
-        $data['slug'] = Str::slug($request->title);
+        $data = $request->only("title", "description", "status", "release_year");
+        $data['slug'] = $newSlug;
 
         if (request()->hasFile("thumbnail")) {
             $thumb_oldname = $movie->thumbnail;
@@ -104,13 +107,30 @@ class MovieController extends Controller
             $request->thumbnail->move(public_path("assets/images/thumbnails"), $thumb_name);
             $data['thumbnail'] = $thumb_name;
         }
-        
-        if($movie->update($data)) {
+
+        if ($oldSlug !== $newSlug) {
+            $disk = Storage::disk('uploads');
+
+            if (Storage::disk('uploads')->exists($oldSlug)) {
+                $files = $disk->allFiles($oldSlug);
+
+                foreach ($files as $file) {
+                    $newPath = Str::replaceFirst($oldSlug, $newSlug, $file);
+
+                    $disk->put($newPath, $disk->get($file));
+                }
+
+                $disk->deleteDirectory($oldSlug);
+            }
+        }
+
+        if ($movie->update($data)) {
             $movie->genres()->sync($request->input('genres', []));
+
             return redirect()->route('movie.index')->with('success', 'Movie updated successfully');
         } else {
             return redirect()->back()->with('error', 'Failed to update movie');
-        } 
+        }
     }
 
     /**
@@ -118,13 +138,18 @@ class MovieController extends Controller
      */
     public function destroy(Movie $movie)
     {
+        $slug = $movie->slug;
+        $thumb_name = $movie->thumbnail;
+        
         if ($movie->delete()) {
-            $thumb_name = $movie->thumbnail;
 
             $thumb_path = public_path("assets/images/thumbnails/{$thumb_name}");
             if (file_exists($thumb_path) && $thumb_name != null) {
                 unlink($thumb_path);
             }
+
+            if (Storage::disk('uploads')->exists($slug)) Storage::disk('uploads')->deleteDirectory($slug);
+
             return redirect()->route('movie.index')->with('success', 'Movie deleted successfully');
         } else {
             return redirect()->back()->with('error', 'Failed to delete movie');

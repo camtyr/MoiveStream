@@ -23,6 +23,11 @@
             border-color: #495057;
             color: white;
         }
+
+        .placeholder-light::placeholder {
+            color: #aaa;
+            opacity: 1;
+        }
     </style>
     @yield("styles")
 </head>

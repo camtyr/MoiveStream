@@ -9,12 +9,6 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{ route("movie.list") }}">List</a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li> -->
       </ul>
 
       <!-- <div class="ms-auto">
@@ -25,6 +19,14 @@
         <a href="{{ route("register") }}" class="auth-link">register</a>
         @endauth
       </div>   -->
+
+      <div class="ms-auto">
+        <form action="{{ route('movie.list') }}" method="GET" class="d-flex">
+          <input type="text" name="title" class="form-control me-2 bg-dark text-white placeholder-light border-secondary"
+            placeholder="Enter movie title" value="{{ request('title') }}">
+          <button class="btn btn-danger me-5" type="submit">Search</button>
+        </form>
+      </div>
     </div>
   </div>
 </nav>

@@ -17,9 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->enum('type', ['single', 'series'])->default('single');
             $table->integer('release_year')->nullable();
-            $table->integer('duration')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

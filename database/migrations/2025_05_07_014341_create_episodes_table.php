@@ -15,7 +15,6 @@ return new class extends Migration {
             $table->foreignId('movie_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->integer('episode_number');
-            $table->text('video_url');
             $table->timestamps();
         });
     }

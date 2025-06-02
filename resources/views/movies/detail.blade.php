@@ -15,7 +15,20 @@
                 <div class="col-12 col-md-8 col-lg-9 col-xl-7">
                     <div class="mt-3">
                         <div class="card bg-dark p-3 text-white">
-                            {{ $movie->description }}
+                            <p class="mb-2"><strong>Description:</strong><br>{!! nl2br(e($movie->description)) !!}</p>
+
+                            <p class="mb-2">
+                                <strong>Release Year:</strong> {{ $movie->release_year ?? 'Unknown' }}
+                            </p>
+
+                            <p class="mb-0">
+                                <strong>Genres:</strong>
+                                @if($movie->genres && $movie->genres->count())
+                                {{ $movie->genres->pluck('name')->implode(', ') }}
+                                @else
+                                None
+                                @endif
+                            </p>
                         </div>
                     </div>
                 </div>

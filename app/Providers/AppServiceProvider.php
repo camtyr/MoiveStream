@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filters\QueryFilter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Builder::macro('filter', function (QueryFilter $filter) {
+            /** @var Builder $this */
+            return $filter->apply($this);
+        });
+
         Paginator::useBootstrapFive();
     }
 }
