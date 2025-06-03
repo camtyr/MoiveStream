@@ -16,6 +16,7 @@ class MovieController extends Controller
     function listMovies(Request $request, MovieFilter $filter)
     {
         $movies = Movie::query()
+            ->published()
             ->with('genres')
             ->filter($filter)
             ->paginate(8)->onEachSide(1)
@@ -37,13 +38,12 @@ class MovieController extends Controller
 
         $selectedEpisode = null;
         if ($request->has('episode')) {
-            $selectedEpisode = $movie->episodes->firstWhere('id', $request->episode);
+            $selectedEpisode = $movie->episodes->firstWhere('episode_number', $request->episode);
         }
 
         if (!$selectedEpisode && $movie->episodes->isNotEmpty()) {
             $selectedEpisode = $movie->episodes->sortBy('episode_number')->first();
         }
-
 
         return view('movies.detail', compact('movie', 'selectedEpisode'));
     }

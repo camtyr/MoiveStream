@@ -57,7 +57,7 @@
         <div class="border border-info rounded p-4 bg-dark">
             <div class="d-flex flex-wrap justify-content-center gap-2">
                 @forelse($movie->episodes as $episode)
-                <a href="{{ route('movie.detail', ['slug' => $movie->slug]) }}?episode={{ $episode->id }}"
+                <a href="{{ route('movie.detail', ['slug' => $movie->slug]) }}?episode={{ $episode->episode_number }}"
                     class="btn episode-btn {{ $selectedEpisode && $selectedEpisode->id == $episode->id ? 'active' : '' }}">
                     Ep {{ $episode->episode_number }}
                 </a>

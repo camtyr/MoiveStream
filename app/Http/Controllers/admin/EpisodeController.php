@@ -125,7 +125,7 @@ class EpisodeController extends Controller
         }
 
         if (request()->hasFile("video")) {
-            Storage::disk('uploads')->deleteDirectory("{$episode->movie->slug}/ep_{$episode->episode_number}");
+            Storage::disk('uploads')->deleteDirectory("{$oldPath}");
 
             Storage::disk('uploads')->putFileAs("{$hlsPath}/raw", $request->file('video'), "movie.mp4");
 

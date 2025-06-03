@@ -11,20 +11,23 @@ class Movie extends Model
         'title',
         'slug',
         'description',
-        'type',
-        'duration',
+        'status',
         'release_year',
         'thumbnail',
     ];
 
     public function episodes()
     {
-        return $this->hasMany(Episode::class, 'movie_id')->orderBy('episode_number');
-;
+        return $this->hasMany(Episode::class, 'movie_id')->orderBy('episode_number');;
     }
 
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'genre_movie', 'movie_id', 'genre_id');
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status', 1);
     }
 }

@@ -4,18 +4,6 @@
 
 @section("content")
 <form class="d-flex form-inline">
-    <div class="form-group mr-1">
-        <label for="" class="sr-only">label</label>
-        <input
-            type="text"
-            name=""
-            id=""
-            class="form-control"
-            placeholder=""
-            aria-describedby="helpId" />
-    </div>
-
-    <button type="submit" class="btn btn-secondary mr-1"><i class="fa fa-search"></i></button>
     <a href="{{ route("movie.create") }}" class="btn btn-success ml-auto"><i class="fa fa-plus">Add new</i></a>
 </form>
 
@@ -50,7 +38,7 @@
                 </td>
                 <td>{{ $movie->release_year }}</td>
                 <td>{{ $movie->description }}</td>
-                <td>{{ $movie->status }}</td>
+                <td>{{ $movie->status == "1" ? "Publish" : "Hidden"}}</td>
                 <td class="text-right" style="white-space: nowrap;">
                     <form action="{{ route("movie.destroy",$movie->id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this movie?')">
                         @csrf 
